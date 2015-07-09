@@ -1,11 +1,11 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[portuguese]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
-\author{Cleber Borges e Gabriel Fonseca}
-\title{Sistema de Destravamento Presencial Sequencial}
+\usepackage{indentfirst}
+
 
 
 
@@ -33,5 +33,39 @@ Belo Horizonte - MG
 \end{center}
 \newpage
 
-\chapter{Introdução}
+\section{Introdução}
+
+A eletrônica talvez seja considerada o maior avanço tecnológico do século XX. A sua evolução se deu de forma exponencial, sendo hoje em dia uma tecnologia acessível e praticamente onipresente. Enquanto no início lidávamos com componentes grandes, delicados e pouco eficientes, com o passar das décadas, foram-se criando alternativas menores, menos dispendiosas e muito mais rápidas.
+
+Com o uso da eletrônica digital e as possibilidades surgidas com a miniaturização dos circuitos, foi possível criar máquinas programáveis que cabem em nossos bolsos e executam milhões de cálculos a mais por segundo do que os primeiros computadores a válvulas. A lógica digital permite uma extrema maleabilidade na solução de um problema, fazendo com que blocos construtivos simples componham um circuito complexo, projetado para lidar com uma situação específica.
+
+O objetivo deste trabalho é o de demonstrar a modelagem de um circuito lógico seqüencial que funcione como um sistema de destravamento de um cofre. São necessárias 3 pessoas para se abrir o cofre, cada uma deve digitar seu código de acesso na ordem certa para que a porta se destrave. Ao identificar corretamente a primeira pessoa uma luz vermelha se acende, a segunda pessoa a ser identificada faz com que se acenda uma luz amarela e, finalmente, quando a terceira pessoa é identificada acende-se uma luz verde e a tranca é aberta por 4 segundos, retornando então ao estado inicial. Qualquer erro de identificação ou na ordem de entrada das senhas faz com que se retorne ao estado inicial.
+
+\section{Definição das Senhas}
+
+Definimos que as senhas seriam, conforme instruções do trabalho, G0, C7 e J2. Conforme tabela ASCII, a representação das senhas, considerando maiúscula e minúscula, seria
+
+\bigskip
+
+\begin{table}[hb]
+\begin{center}
+\begin{tabular}{c||cccccccc|cccc}
+Senha & $I_0$ & $I_1$ & $I_2$ & $I_3$ & $I_4$ & $I_5$ & $I_6$ & $I_7$ & $I_8$ & $I_9$ & $I_{10}$ & $I_{11}$ \\
+\hline
+G0 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
+g0 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
+\hline
+\hline
+C7 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
+c7 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
+\hline
+\hline
+J2 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
+j2 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
+\end{tabular}
+\end{center}
+\caption{Codificação ASCII das senhas do sistema}
+\end{table}
+
+Pode-se perceber que os números em destaque são redundantes para a identificação das senhas, uma vez que se repetem ou seguem um padrão óbvio, variando apenas um bit entre o caractere maiúsculo e minúsculo. Dessa forma podemos adotar apenas 6 bits para a letra e 3 bits para os números, uma vez que nenhuma senha possuí número maior que 8.
 \end{document}
