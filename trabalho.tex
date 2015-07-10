@@ -60,21 +60,21 @@ Definimos que as senhas seriam, conforme instruções do trabalho, G0, C7 e J2. 
 Senha & $I_0$ & $I_1$ & $I_2$ & $I_3$ & $I_4$ & $I_5$ & $I_6$ & $I_7$ & $I_8$ & $I_9$ & $I_{10}$ & $I_{11}$ \\
 \hline
 \hline
-G0 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
-g0 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
+G0 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+g0 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
 \hline
-C7 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
-c7 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
+C7 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 \\
+c7 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 \\
 \hline
-J2 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
-j2 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
+J2 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+j2 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
 \end{tabular}
 \end{center}
 \caption{Codificação ASCII das senhas do sistema}
 \label{tab1}
 \end{table}
 
-Pode-se perceber que os números em destaque são redundantes para a identificação das senhas, uma vez que se repetem ou seguem um padrão óbvio, variando apenas um bit entre o caractere maiúsculo e minúsculo. Dessa forma podemos adotar apenas 6 bits para a letra e 3 bits para os números, uma vez que nenhuma senha possuí número maior que 8.
+Pode-se perceber que os números em destaque são redundantes para a identificação das senhas, uma vez que se repetem ou seguem um padrão óbvio, variando apenas um bit entre o caractere maiúsculo e minúsculo. Dessa forma podemos adotar apenas 5 bits para a letra e 4 bits para os números.
 
 Na figura \ref{fig1} pode-se ver os circuitos lógicos necessários para se identificar as senhas codificadas na tabela \ref{tab1}.
 
@@ -96,15 +96,15 @@ O próximo passo da criação do sistema é a definição dos estados da máquin
 
 \begin{table}[hb]
 \begin{center}
-\begin{tabular}{c|c|c}
-\textbf{Estado} & \textbf{Descrição}\\ \hline
+\begin{tabular}{ c | c }
+\textbf{Estado} & \textbf{Descrição}\\ 
+\hline
 0 & Fechadura trancada, luzes apagadas, estado inicial \\
 1 & Fechadura trancada, luz vermelha acesa \\
 2 & Fechadura trancada, luzes vermelha e amarela acesas \\
 3 & Fechadura destrancada, todas as luzes acesas \\
 4 & Fechadura destrancada, todas as luzes acesas, 2 segundos passados \\
 5 & Fechadura destrancada, todas as luzes acesas, 4 segundos passados \\ 
-\hline
 \end{tabular}
 \end{center}
 \caption{Descrição dos estados}
@@ -128,7 +128,7 @@ Estado & $S_0$ & $S_1$ & $S_2$ \\ \hline
 \label{tab3}
 \end{table}
 
-A representação em forma de diagrama, com suas respectivas transições pode ser vista na figura \ref{fig2}. Pode-se perceber que a transição entre os estados só é feita quando os identificadores são identificados em certa ordem, no caso $X_a \rightarrow X_b \rightarrow X_c$. Com os estados codificados e as transições definidas podemos então montar a tabela verdade com as saídas e definir as equações booleanas necessárias para criarmos os circuitos lógicos que controlarão a FSM. A tabela \ref{tabV} contém os valores de entrada e saída que representam nossa máquina de estados.
+A representação em forma de diagrama, com suas respectivas transições pode ser vista na figura \ref{fig2}. Pode-se perceber que a transição entre os estados só é feita quando os identificadores são identificados em certa ordem, no caso $X_a \rightarrow X_b \rightarrow X_c$.
 
 \begin{figure}
 \begin{center}
@@ -157,6 +157,8 @@ A representação em forma de diagrama, com suas respectivas transições pode s
 
 %\appendix
 \section{Tabela Verdade}
+
+Com os estados codificados e as transições definidas podemos então montar a tabela verdade e definir as equações booleanas que descrevem os circuitos lógicos que controlarão a FSM. A tabela \ref{tabV} contém os valores de entrada e saída que representam nossa máquina de estados.
 
 \begin{longtable}{|ccc|ccc||ccc|c|c|c|}
 \caption{Tabela verdade da máquina de estados} \label{tabV}\\
@@ -231,5 +233,109 @@ $X_a$ & $X_b$ & $X_c$ & $S_0$ & $S_1$ & $S_2$ & $N_0$ & $N_1$ & $N_2$ & Vm & Am 
 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 \end{longtable}
 
+Simplificando a tabela obtemos então as equações de 1 a 3 para as luzes vermelha, amarela e verde, respectivamente.
+
+\begin{equation}
+Vm=(S_0S_1'S_2')+(S_0'S_1S_2)+(X_aX_b'X_c'S_1'S_2')+(X_aX_bX_c'S_0'S_2)+(X_aX_bX_cS_0'S_1)
+\end{equation}
+
+\begin{equation}
+Am=(S_0S_1'S_2')+(S_0'S_1S_2)+(X_aX_bX_c'S_0'S_2)+(X_aX_bX_cS_0'S_1)
+\end{equation}
+
+\begin{equation}
+Ve=(S_0S_1'S_2')+(S_0'S_1S_2)+(X_aX_bX_cS_0'S_1)
+\end{equation}
+
+As equações da máquina de estados são as de 4 a 6.
+
+\begin{equation}
+N_0=(X_aX_bX_cS_0S_1')+(X_c'S_0'S_1S_2)+(X_b'S_0'S_1S_2)+(X_a'S_0'S_1S_2)+(S_0S_1'S_2')
+\end{equation}
+
+\begin{equation}
+N_1=(X_aX_bX_c'S_0'S_1'S_2)+(X_aX_bX_cS_0'S_1S_2')
+\end{equation}
+
+\begin{equation}
+N_2=(S_0S_1'S_2')+(X_aX_bX_cS_0'S_1S_2')+(X_aX_b'X_c'S_1'S_2')
+\end{equation}
+
+\section{Circuito Lógico Combinacional}
+
+Montadas as equações de cada uma das saídas e das transições de estado, resta montar o circuito de forma que tenhamos ao fim a máquina de estados funcionando corretamente. Nossas entradas podem ser lidas na tabela \ref{tab4}. Por sua vez, as saídas podem ser vistas na tabela \ref{tab5}.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c|c}
+\textbf{Entrada} & \textbf{Descrição} \\ \hline
+$X_a$ & Identificação do indivíduo 1 \\
+$X_b$ & Identificação do indivíduo 2 \\
+$X_c$ & Identificação do indivíduo 3 \\
+$S_0$ & Bit 0 do estado atual \\
+$S_1$ & Bit 1 do estado atual \\
+$S_2$ & Bit 2 do estado atual \\
+\end{tabular}
+\end{center}
+\caption{Descrição das entradas do circuito}
+\label{tab4}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{c|c}
+\textbf{Saída} & \textbf{Descrição} \\ \hline
+$Vm$ & Luz vermelha \\
+$Am$ & Luz amarela \\
+$Ve$ & Luz verde e tranca \\
+$N_0$ & Bit 0 do próximo estado \\
+$N_1$ & Bit 1 do próximo estado \\
+$N_2$ & Bit 2 do próximo estado \\
+\end{tabular}
+\end{center}
+\caption{Descrição das saídas do circuito}
+\label{tab5}
+\end{table}
+
+Os circuitos que definem as saídas de luz e tranca podem ser vistos na figura \ref{fig3}. Enquanto os circuitos que definem o próximo estado da máquina podem ser vistos na figura \ref{fig4}. É importante frisar que o registrador de estados não consta no desenho do circuito, porém consiste apenas em 3 flip-flops tipo D em paralelo, controlados pelo clock de uma onda quadrada de período igual a 2 segundos. Isso garante que a porta fique aberta por 4 segundos, uma vez que se passam 2 estados com a porta aberta. As saídas N são, portanto, entradas dos flip-flops enquanto as entradas S são saídas destes mesmos flip-flops.
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=.65\textwidth]{vm.png}
+\includegraphics[width=.65\textwidth]{am.png}
+\includegraphics[width=.65\textwidth]{ve.png}
+\end{center}
+\caption{Circuitos combinacionais das luzes}
+\label{fig3}
+\end{figure}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=.65\textwidth]{n0.png}
+\includegraphics[width=.65\textwidth]{n1.png}
+\includegraphics[width=.65\textwidth]{n2.png}
+\end{center}
+\caption{Circuitos combinacionais da máquina de estados}
+\label{fig4}
+\end{figure}
+
+\section{Simulação}
+
+Nas figuras abaixo podemos ver o diagrama de temporização da máquina de estados finitos em um caso de sucesso, no qual a tranca foi aberta, e em um caso de fracasso.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{simu1.png}
+\end{center}
+\caption{Simulação de um caso de sucesso}
+\end{figure}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{simu2.png}
+\end{center}
+\caption{Simulação de um caso de fracasso}
+\end{figure}
 
 \end{document}
