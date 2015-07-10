@@ -7,6 +7,10 @@
 \usepackage{indentfirst}
 \usepackage{longtable}
 \usepackage{tikz}
+\usepackage[section]{placeins}
+
+
+
 \usetikzlibrary{arrows,automata}
 
 
@@ -46,7 +50,7 @@ O objetivo deste trabalho é o de demonstrar a modelagem de um circuito lógico 
 
 \section{Identificação dos Indivíduos}
 
-Definimos que as senhas seriam, conforme instruções do trabalho, G0, C7 e J2. Conforme tabela ASCII, a representação das senhas, considerando maiúscula e minúscula, seria
+Definimos que as senhas seriam, conforme instruções do trabalho, G0, C7 e J2. Conforme tabela ASCII, a representação das senhas, considerando maiúscula e minúscula, seria conforme a tabela \ref{tab1}.
 
 \bigskip
 
@@ -55,13 +59,12 @@ Definimos que as senhas seriam, conforme instruções do trabalho, G0, C7 e J2. 
 \begin{tabular}{c||cccccccc|cccc}
 Senha & $I_0$ & $I_1$ & $I_2$ & $I_3$ & $I_4$ & $I_5$ & $I_6$ & $I_7$ & $I_8$ & $I_9$ & $I_{10}$ & $I_{11}$ \\
 \hline
+\hline
 G0 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
 g0 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 1 & 1 & 1 & {\bf 0} & 0 & 0 & 0 \\
 \hline
-\hline
 C7 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
 c7 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 0 & 0 & 1 & 1 & {\bf 0} & 1 & 1 & 1 \\
-\hline
 \hline
 J2 & {\bf 0} & {\bf 1} & {\bf 0} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
 j2 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
@@ -73,18 +76,19 @@ j2 & {\bf 0} & {\bf 1} & {\bf 1} & 0 & 1 & 0 & 1 & 0 & {\bf 0} & 0 & 1 & 0 \\
 
 Pode-se perceber que os números em destaque são redundantes para a identificação das senhas, uma vez que se repetem ou seguem um padrão óbvio, variando apenas um bit entre o caractere maiúsculo e minúsculo. Dessa forma podemos adotar apenas 6 bits para a letra e 3 bits para os números, uma vez que nenhuma senha possuí número maior que 8.
 
-Na figura \ref{fig1} pode-se ver os circuitos lógicos necessários para se identificar as senhas da tabela \ref{tab1}.
+Na figura \ref{fig1} pode-se ver os circuitos lógicos necessários para se identificar as senhas codificadas na tabela \ref{tab1}.
 
 \begin{figure}[!h]
 \begin{center}
-\includegraphics[width=.7\textwidth]{xa.png}
-\includegraphics[width=.7\textwidth]{xb.png}
-\includegraphics[width=.7\textwidth]{xc.png}
+\includegraphics[width=.6\textwidth]{xa.png}
+\includegraphics[width=.6\textwidth]{xb.png}
+\includegraphics[width=.6\textwidth]{xc.png}
 \end{center}
 \caption{Lógica dos identificadores dos indivíduos}
 \label{fig1}
 \end{figure}
 
+\newpage
 \section{Máquina de Estados Finitos}
 
 O próximo passo da criação do sistema é a definição dos estados da máquina, para que possamos dimensionar as entradas, as saídas e as transições de estado, definindo em seguida o circuito lógico combinacional equivalente. Os estados da nossa máquina podem ser definidos conforme tabela \ref{tab2}. Com isso sabemos que os estados podem ser codificados usando 3 bits, que suportariam até 8 estados diferentes. A codificação deles pode ser vista na tabela \ref{tab3}.
@@ -108,7 +112,8 @@ O próximo passo da criação do sistema é a definição dos estados da máquin
 \end{table}
 
 
-\begin{table}[!h]
+\begin{table}[!hb]
+\begin{center}
 \begin{tabular}{c|ccc}
 Estado & $S_0$ & $S_1$ & $S_2$ \\ \hline
 0 & 0 & 0 & 0 \\
@@ -118,9 +123,15 @@ Estado & $S_0$ & $S_1$ & $S_2$ \\ \hline
 4 & 1 & 0 & 0 \\
 5 & 1 & 0 & 1 \\
 \end{tabular}
+\end{center}
+\caption{Codificação dos estados da máquina}
 \label{tab3}
 \end{table}
 
+A representação em forma de diagrama, com suas respectivas transições pode ser vista na figura \ref{fig2}. Pode-se perceber que a transição entre os estados só é feita quando os identificadores são identificados em certa ordem, no caso $X_a \rightarrow X_b \rightarrow X_c$. Com os estados codificados e as transições definidas podemos então montar a tabela verdade com as saídas e definir as equações booleanas necessárias para criarmos os circuitos lógicos que controlarão a FSM. A tabela \ref{tabV} contém os valores de entrada e saída que representam nossa máquina de estados.
+
+\begin{figure}
+\begin{center}
 \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=4cm]
   \node[initial,state] (0)      {0};
   \node[state]         (1) [right of=0]  {1};
@@ -139,13 +150,20 @@ Estado & $S_0$ & $S_1$ & $S_2$ \\ \hline
         (4) edge				node {} (5)
         (5) edge				node {} (0);
 \end{tikzpicture}
+\end{center}
+\caption{Diagrama de estados da FSM}
+\label{fig2}
+\end{figure}
 
-%\begin{table}[htbp]
+%\appendix
+\section{Tabela Verdade}
 
 \begin{longtable}{|ccc|ccc||ccc|c|c|c|}
+\caption{Tabela verdade da máquina de estados} \label{tabV}\\
+
 \hline
-\multicolumn{6}{|c|}{\textbf{Entradas}} & \multicolumn{6}{|c|}{\textbf{Saídas}} \\ \hline
-\multicolumn{3}{|c|}{Identificadores} & \multicolumn{3}{|c|}{Est. Atual} & \multicolumn{3}{|c|}{Prox. Estado} & \multicolumn{3}{|c|}{Luzes} \\ \hline
+\multicolumn{6}{|c||}{\textbf{Entradas}} & \multicolumn{6}{|c|}{\textbf{Saídas}} \\ \hline
+\multicolumn{3}{|c|}{Identificadores} & \multicolumn{3}{|c||}{Est. Atual} & \multicolumn{3}{|c|}{Prox. Estado} & \multicolumn{3}{|c|}{Luzes} \\ \hline
 $X_a$ & $X_b$ & $X_c$ & $S_0$ & $S_1$ & $S_2$ & $N_0$ & $N_1$ & $N_2$ & Vm & Am & Ve \\ \hline \endhead
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
@@ -211,11 +229,7 @@ $X_a$ & $X_b$ & $X_c$ & $S_0$ & $S_1$ & $S_2$ & $N_0$ & $N_1$ & $N_2$ & Vm & Am 
 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
-
-\caption{Tabela verdade da máquina de estados}
-\label{tabV}
 \end{longtable}
-%\end{table}
 
 
 \end{document}
